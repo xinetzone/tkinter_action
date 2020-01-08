@@ -109,13 +109,15 @@ class HelloWindow(HelloMeta):
         '''用户注册的行为'''
         user_name, user_pwd = self.get_user_info()
         users_info = self.load_users_info()
-        cond = user_name not in users_info
-        cond1 = self.test_user_name(user_name) and self.test_user_pwd(user_pwd)
-        if cond and cond1:
-            self.write_user_info({user_name: user_pwd}, users_info)
-            messagebox.showinfo('', "注册成功！")
+        cond = self.test_user_name(user_name) and self.test_user_pwd(user_pwd)
+        if user_name in users_info:
+            messagebox.showwarning('注册失败！', "您注册的用户名已经存在！")
         else:
-            messagebox.showerror('注册失败！', "请检查您的输入")
+            if cond: # 满足注册条件
+                self.write_user_info({user_name: user_pwd}, users_info)
+                messagebox.showinfo('', "注册成功！")
+            else:
+                messagebox.showerror('注册失败！', "请检查您的输入")
 
     def usr_login(self):
         '''用户登录的行为'''
