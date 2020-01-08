@@ -6,7 +6,7 @@ import json
 
 
 class HelloMeta(Tk):
-    def __init__(self, users_info_dir, hello_image='images/leimu.jpg'):
+    def __init__(self, users_info_dir, hello_image):
         '''
         参数
         ======
@@ -61,7 +61,7 @@ class HelloMeta(Tk):
 
 
 class HelloWindow(HelloMeta):
-    def __init__(self, users_info_dir, hello_image='images/leimu.jpg'):
+    def __init__(self, users_info_dir, hello_image):
         super().__init__(users_info_dir, hello_image)
         self.create_widgets()
         self._layout()
@@ -112,7 +112,7 @@ class HelloWindow(HelloMeta):
         cond = user_name not in users_info
         cond1 = self.test_user_name(user_name) and self.test_user_pwd(user_pwd)
         if cond and cond1:
-            self.write_user_info(users_info, {user_name: user_pwd})
+            self.write_user_info({user_name: user_pwd}, users_info)
             messagebox.showinfo('', "注册成功！")
         else:
             messagebox.showerror('注册失败！', "请检查您的输入")
@@ -122,7 +122,7 @@ class HelloWindow(HelloMeta):
         user_name, user_pwd = self.get_user_info()
         user_info = {user_name: user_pwd}
         users_info = self.load_users_info()
-        cond = set(user_info.items()) < set(users_info.items())
+        cond = set(user_info.items()) <= set(users_info.items())
         if cond:
             #self.withdraw() # 隐藏主窗口
             messagebox.showinfo('', "登录成功！")
