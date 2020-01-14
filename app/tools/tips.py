@@ -71,7 +71,7 @@ class ToolTip:
         self.id_after = None
 
     def wm_geometry(self):
-        '''设定窗口的大小'''
+        '''转换为电脑桌面的坐标'''
         new_x = self.widget.winfo_rootx() + self.x + self.offset[0]
         new_y = self.widget.winfo_rooty() + self.y + self.offset[1]
         return new_x, new_y
