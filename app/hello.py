@@ -34,15 +34,13 @@ class HelloMeta(Tk):
 
     def test_user_name(self, user_name):
         '''测试用户名的格式'''
-        if user_name:
-            if user_name[0].isalpha() and len(user_name) > 2:
-                return True
+        if user_name and user_name[0].isalpha() and len(user_name) > 2:
+            return True
 
     def test_user_pwd(self, user_pwd):
         '''测试用户密码的格式'''
-        if user_pwd:
-            if user_pwd[0].isalpha() and len(user_pwd) > 6:
-                return True
+        if user_pwd and user_pwd[0].isalpha() and len(user_pwd) > 6:
+            return True
 
     def write_user_info(self, new_user_info, users_info):
         '''记录新用户的信息'''
@@ -112,23 +110,20 @@ class HelloWindow(HelloMeta):
         cond = self.test_user_name(user_name) and self.test_user_pwd(user_pwd)
         if user_name in users_info:
             messagebox.showwarning('注册失败！', "您注册的用户名已经存在！")
+        elif cond: # 满足注册条件
+            self.write_user_info({user_name: user_pwd}, users_info)
+            messagebox.showinfo('', "注册成功！")
         else:
-            if cond: # 满足注册条件
-                self.write_user_info({user_name: user_pwd}, users_info)
-                messagebox.showinfo('', "注册成功！")
-            else:
-                messagebox.showerror('注册失败！', "请检查您的输入")
+            messagebox.showerror('注册失败！', "请检查您的输入")
 
     def usr_login(self):
         '''用户登录的行为'''
         user_name, user_pwd = self.get_user_info()
         user_info = {user_name: user_pwd}
         users_info = self.load_users_info()
-        cond = set(user_info.items()) <= set(users_info.items())
-        if cond:
+        if cond := set(user_info.items()) <= set(users_info.items()):
             #self.withdraw() # 隐藏主窗口
             messagebox.showinfo('', "登录成功！")
-            #self.deiconify() # 重现主窗口
         else:
             messagebox.showerror('登录失败！', "请检查您的输入")
 
