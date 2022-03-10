@@ -23,7 +23,7 @@ class TipWindow(Toplevel):
 
     def _label_params(self, text, textvariable):
         '''创建用来显示的标签'''
-        params = {
+        return {
             'textvariable': textvariable,
             'text': text,
             'justify': 'left',
@@ -31,7 +31,6 @@ class TipWindow(Toplevel):
             'relief': 'solid',
             'borderwidth': 1
         }
-        return params
 
 
 class ToolTip:
@@ -82,14 +81,13 @@ class ToolTip:
         """
         if self.tip_window:
             return
-        else:
-            self.tip_window = TipWindow(self.widget)
-            new_x, new_y = self.wm_geometry()
-            self.tip_window.wm_geometry("+%d+%d" % (new_x, new_y))
-            params = self.tip_window._label_params(
-                self.text, self.textvariable)
-            tip_label = ttk.Label(self.tip_window, **params)
-            tip_label.grid(sticky='nsew')
+        self.tip_window = TipWindow(self.widget)
+        new_x, new_y = self.wm_geometry()
+        self.tip_window.wm_geometry("+%d+%d" % (new_x, new_y))
+        params = self.tip_window._label_params(
+            self.text, self.textvariable)
+        tip_label = ttk.Label(self.tip_window, **params)
+        tip_label.grid(sticky='nsew')
 
     def schedule(self):
         """
